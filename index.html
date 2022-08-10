@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Batería JS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <div class="keys">
+    <div>
+      <div data-key="81" class="key">
+        <kbd>Q</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="90" class="key">
+        <kbd>Z</kbd>
+        <span class="sound">kick</span>
+      </div>
+    </div>
+
+    <div>
+      <div data-key="87" class="key">
+        <kbd>W</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="88" class="key">
+        <kbd>X</kbd>
+        <span class="sound">ride</span>
+      </div>
+    </div>
+
+    <div>
+      <div data-key="69" class="key">
+        <kbd>E</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="67" class="key">
+        <kbd>C</kbd>
+        <span class="sound">tink</span>
+      </div>
+    </div>
+  </div>
+
+  <audio data-key="81" src="sonidos/clap.wav"></audio>
+  <audio data-key="65" src="sonidos/hihat.wav"></audio>
+  <audio data-key="90" src="sonidos/kick.wav"></audio>
+  <audio data-key="87" src="sonidos/openhat.wav"></audio>
+  <audio data-key="83" src="sonidos/boom.wav"></audio>
+  <audio data-key="88" src="sonidos/ride.wav"></audio>
+  <audio data-key="69" src="sonidos/snare.wav"></audio>
+  <audio data-key="68" src="sonidos/tom.wav"></audio>
+  <audio data-key="67" src="sonidos/tink.wav"></audio>
+
+<script>
+  function play(e) {
+    const audio = document.querySelector(`audio[data-key = "${e.keyCode}"]`);
+    const key = document.querySelector(`div[data-key = "${e.keyCode}"]`);
+    if(!audio) return; // Si se pulsa una tecla sin sonido asociado, detener la función
+    audio.currentTime = 0; // Volver al principio del audio;
+    audio.play();
+    key.classList.add('playing');
+  }
+
+  function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; // Saltar si no es transform
+    this.classList.remove('playing');
+  }
+
+  const keys = document.querySelectorAll('.key');  
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', play);
+</script>
+
+
+</body>
+</html>
